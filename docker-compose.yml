@@ -12,6 +12,7 @@ services:
     environment:
       - QDB_LINE_TCP_WRITER_WORKER_COUNT=2
       - QDB_LINE_TCP_IO_WORKER_COUNT=2
+      - QDB_PG_READONLY_USER_ENABLED=true
   # grafana:
   #   image: grafana/grafana
   #   container_name: grafana_alerts
