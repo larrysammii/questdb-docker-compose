@@ -1,4 +1,3 @@
-
 services:
   questdb:
     image: questdb/questdb:8.2.2
@@ -13,3 +12,14 @@ services:
     environment:
       - QDB_LINE_TCP_WRITER_WORKER_COUNT=2
       - QDB_LINE_TCP_IO_WORKER_COUNT=2
+  # grafana:
+  #   image: grafana/grafana
+  #   container_name: grafana_alerts
+  #   restart: always
+  #   ports:
+  #     - 3001:3000
+  #   networks:
+  #     - questdb
+  #   volumes:
+  #     - ./data/grafana:/var/lib/grafana/
+  #     - ./grafana/provisioning/:/etc/grafana/provisioning/
