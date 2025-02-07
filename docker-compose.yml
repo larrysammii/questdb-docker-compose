@@ -1,12 +1,12 @@
 services:
   questdb:
-    image: questdb/questdb:8.2.2
+    image: questdb/questdb:latest
     container_name: questdb-main
     ports:
-      - 9000:9000
-      - 9009:9009
-      - 8812:8812
-      - 9003:9003
+      - "9000:9000"   # REST API
+      - "9009:9009"   # InfluxDB Line Protocol
+      - "8812:8812"   # PostgreSQL wire protocol
+      - "9003:9003"   # Web Console
     volumes:
       - ./questdb/questdb_root:/var/lib/questdb/:rw
     environment:
@@ -14,15 +14,23 @@ services:
       - QDB_LINE_TCP_IO_WORKER_COUNT=2
       - QDB_PG_READONLY_USER_ENABLED=true
     extra_hosts:
-      - host.docker.internal:host-gateway
-  # grafana:
-  #   image: grafana/grafana-oss:latest
-  #   restart: unless-stopped
-  #   volumes:
-  #     - grafana-storage:/var/lib/grafana
-  #   ports:
-  #     - "3001:3000"
-  #   extra_hosts:
-  #     - host.docker.internal:host-gateway
-  #   volumes:
-  #     grafana-storage: {}
+      - "host.docker.internal:host-gateway"
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"  # Host:Container port mapping
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+# volumes:
+#   grafana-storage: {}
+
+# networks:
+#   default:
+#     name: questdb-net
+#     driver: bridge
