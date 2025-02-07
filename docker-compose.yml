@@ -13,14 +13,16 @@ services:
       - QDB_LINE_TCP_WRITER_WORKER_COUNT=2
       - QDB_LINE_TCP_IO_WORKER_COUNT=2
       - QDB_PG_READONLY_USER_ENABLED=true
+    extra_hosts:
+      - host.docker.internal:host-gateway
   # grafana:
-  #   image: grafana/grafana
-  #   container_name: grafana_alerts
-  #   restart: always
-  #   ports:
-  #     - 3001:3000
-  #   networks:
-  #     - questdb
+  #   image: grafana/grafana-oss:latest
+  #   restart: unless-stopped
   #   volumes:
-  #     - ./data/grafana:/var/lib/grafana/
-  #     - ./grafana/provisioning/:/etc/grafana/provisioning/
+  #     - grafana-storage:/var/lib/grafana
+  #   ports:
+  #     - "3001:3000"
+  #   extra_hosts:
+  #     - host.docker.internal:host-gateway
+  #   volumes:
+  #     grafana-storage: {}
